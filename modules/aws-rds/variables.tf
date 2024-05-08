@@ -1,0 +1,10 @@
+variable "sg-name" {}
+variable "private-subnet-name3" {}
+variable "private-subnet-name4" {}
+variable "db-sg-name" {}
+variable "rds-username" {}
+variable "rds-pwd" {}
+variable "db-name" {}
+variable "rds-name" {}
+variable "Owner" {}
+variable "CreateDate" {}
