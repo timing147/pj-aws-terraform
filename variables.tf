@@ -71,12 +71,6 @@ variable "BUCKET-NAME" {}
 variable "OWNER" {}
 variable "CREATEDATE" {}
 
-
-
-
-
-
-
 # variable "" {}
 # variable "" {}
 # variable "" {}

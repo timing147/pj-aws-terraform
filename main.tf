@@ -1,4 +1,16 @@
 
+#module "s3" {
+#  source        = "./modules/aws-static-s3"
+#  bucket-name   = var.BUCKET-NAME
+#  static-file   = var.STATIC-FILE
+#  static-source = var.STATIC-SOURCE
+#  common-tags   = local.common-tags
+#  providers = {
+#  aws = aws.us-east-1
+#}
+#}
+
+
 module "vpc" {
   source = "./modules/aws-vpc"
 
@@ -29,9 +41,9 @@ module "vpc" {
   private-rt-name2 = var.PRIVATE-RT-NAME2
   az-1             = var.AZ-1
   az-2             = var.AZ-2
-  Owner            = var.OWNER
-  CreateDate       = var.CREATEDATE
-} 
+
+  #depends_on = [module.s3]
+}
 
 module "security-group" {
   source = "./modules/security-group"
@@ -57,8 +69,8 @@ module "rds" {
   rds-pwd              = var.RDS-PWD
   db-name              = var.DB-NAME
   rds-name             = var.RDS-NAME
-  Owner = var.OWNER
-  CreateDate = var.CREATEDATE
+  Owner                = var.OWNER
+  CreateDate           = var.CREATEDATE
 
   depends_on = [module.security-group]
 }
@@ -112,21 +124,11 @@ module "autoscaling" {
   private-subnet-name1    = var.PRIVATE-SUBNET1
   private-subnet-name2    = var.PRIVATE-SUBNET2
   tg-name2                = var.TG-NAME2
+  asg-name2               = var.ASG-NAME2
+  Owner                   = var.OWNER
 
-  asg-name2  = var.ASG-NAME2
-  Owner      = var.OWNER
-  CreateDate = var.CREATEDATE
 
   depends_on = [module.iam]
-}
-module "s3" {
-  source        = "./modules/aws-static-s3"
-  bucket-name   = var.BUCKET-NAME
-  static-file   = var.STATIC-FILE
-  static-source = var.STATIC-SOURCE
-  Owner         = var.OWNER
-  CreateDate    = var.CREATEDATE
-
 }
 
 
@@ -136,16 +138,19 @@ module "route53" {
   domain-name  = var.DOMAIN-NAME
   cdn-name     = var.CDN-NAME
   web_acl_name = var.WEB-ACL-NAME
-  alb-dns-name = module.alb.alb_dns_name
-  alb-name     = var.ALB-NAME
+  #alb-dns-name = module.alb.alb_dns_name
+  #alb-name     = var.ALB-NAME
   Owner        = var.OWNER
   CreateDate   = var.CREATEDATE
-  s3-dns-name  = module.s3.s3_bucket_domain
-  s3-id        = module.s3.s3_bucket_id
+  #s3-dns-name  = module.s3.s3_bucket_domain
+  #s3-id        = module.s3.s3_bucket_id
+  common-tags = local.common-tags
+  s3-name = var.BUCKET-NAME
+  alb-domain = module.alb.app-alb-dns
   providers = {
     aws = aws.us-east-1
   }
 
-  depends_on = [module.autoscaling]
+  #depends_on = [module.autoscaling]
 
 }

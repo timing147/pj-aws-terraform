@@ -67,7 +67,7 @@ WEB-ACL-NAME = "3-Tier-WAF"
 #s3
 STATIC-FILE   = "index.html"
 STATIC-SOURCE = "./modules/aws-static-s3/index.html"
-BUCKET-NAME   = "mintstone-static-kms1379"
+BUCKET-NAME   = "mintstone.store"
 
 #private
 OWNER      = "kms"
