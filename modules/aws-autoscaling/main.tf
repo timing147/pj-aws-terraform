@@ -1,5 +1,5 @@
 # Creating Launch template for Web tier AutoScaling Group
-resource "aws_launch_template" "Web-LC" {
+/*resource "aws_launch_template" "Web-LC" {
   name = var.launch-template-name
   image_id = data.aws_ami.ami.image_id
   instance_type = "t2.micro"
@@ -31,11 +31,6 @@ resource "aws_autoscaling_group" "Web-ASG" {
   tag {
     key = "Owner"
     value = var.Owner
-    propagate_at_launch = true
-  }
-  tag {
-    key = "CreateDate"
-    value = var.CreateDate
     propagate_at_launch = true
   }
 
@@ -99,7 +94,7 @@ resource "aws_cloudwatch_metric_alarm" "web-custom-cpu-alarm-scaledown" {
 
   alarm_actions = [aws_autoscaling_policy.web-custom-cpu-policy-scaledown.arn]
 }
-
+*/
 
 # Creating Launch template for App tier AutoScaling Group
 resource "aws_launch_template" "App-LC" {
@@ -134,11 +129,6 @@ resource "aws_autoscaling_group" "App-ASG" {
   tag {
     key = "Owner"
     value = var.Owner
-    propagate_at_launch = true
-  }
-  tag {
-    key = "CreateDate"
-    value = var.CreateDate
     propagate_at_launch = true
   }
 

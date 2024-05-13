@@ -1,4 +1,5 @@
 # Creating ALB for Web Tier
+/*
 resource "aws_lb" "web-elb" {
   name = var.alb-name
   internal           = false
@@ -7,17 +8,18 @@ resource "aws_lb" "web-elb" {
   security_groups    = [data.aws_security_group.web-alb-sg.id]
   ip_address_type    = "ipv4"
   enable_deletion_protection = false
+  #tags = merge(var.default-tags, {Name = var.alb-name})
   tags = {
     Name = var.alb-name
     Owner = var.Owner
     CreateDate = var.CreateDate
   }
 }
-
+*/
 # Creating ALB for App Tier
 resource "aws_lb" "app-elb" {
 
-  depends_on = [ aws_lb.web-elb ]
+  #depends_on = [ aws_lb.web-elb ]
 
   name = var.alb-name2
   internal           = false
@@ -26,13 +28,12 @@ resource "aws_lb" "app-elb" {
   security_groups    = [data.aws_security_group.web-alb-sg.id]
   ip_address_type    = "ipv4"
   enable_deletion_protection = false
+
   tags = {
     Name = var.alb-name2
-    Owner = var.Owner
-    CreateDate = var.CreateDate
-  }
+    }
 }
-
+/*
 # Creating Target Group for Web-Tier 
 resource "aws_lb_target_group" "web-tg" {
   name = var.tg-name
@@ -52,8 +53,6 @@ resource "aws_lb_target_group" "web-tg" {
 
   tags = {
     Name = var.tg-name
-    Owner = var.Owner
-    CreateDate = var.CreateDate
   }
 
   lifecycle {
@@ -76,7 +75,7 @@ resource "aws_lb_listener" "web-alb-listener" {
 
   depends_on = [ aws_lb.web-elb ]
 }
-
+*/
 # Creating Target Group for App-Tier 
 resource "aws_lb_target_group" "app-tg" {
   name = var.tg-name2
@@ -97,9 +96,7 @@ resource "aws_lb_target_group" "app-tg" {
 
   tags = {
     Name = var.tg-name2
-    Owner = var.Owner
-    CreateDate = var.CreateDate
-  }
+  } 
 
   lifecycle {
     prevent_destroy = false

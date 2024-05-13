@@ -14,4 +14,3 @@ variable "private-subnet-name2" {}
 
 variable "tg-name2" {}
 variable "Owner" {}
-variable "CreateDate" {}

@@ -25,5 +25,3 @@ variable "private-subnet3" {}
 variable "private-subnet4" {}
 variable "private-cidr3" {}
 variable "private-cidr4" {}
-variable "Owner" {}
-variable "CreateDate" {}

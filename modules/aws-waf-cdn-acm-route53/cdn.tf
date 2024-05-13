@@ -1,17 +1,28 @@
+resource "aws_cloudfront_origin_access_control" "origin-s3" {
+  name                              = "origin-s3"
+  description                       = "Example Policy"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
 resource "aws_cloudfront_distribution" "cdn-web-elb-distribution" {
   origin {
-    domain_name = "${var.s3-dns-name}.s3.ap-southeast-1.amazonaws.com"
-    origin_id   = var.s3-id
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
+    domain_name = data.aws_s3_bucket.s3-id.bucket_regional_domain_name
+    origin_id   = data.aws_s3_bucket.s3-id.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.origin-s3.id
+    #custom_origin_config {
+    #  http_port              = 80
+    #  https_port             = 443
+    #  origin_protocol_policy = "http-only"
+    #  origin_ssl_protocols   = ["TLSv1.2"]
+    #}
+    
 
   }
-
-  aliases         = [var.domain-name, "*.${var.domain-name}"]
+  default_root_object = "index.html"
+  
+  aliases         = [var.domain-name, "*.${var.domain-name}", var.alb-domain]
   enabled         = true
   is_ipv6_enabled = true
   comment         = "CDN ALB Distribution"
@@ -20,11 +31,11 @@ resource "aws_cloudfront_distribution" "cdn-web-elb-distribution" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = var.s3-id
+    target_origin_id = data.aws_s3_bucket.s3-id.id
 
     forwarded_values {
       query_string = false
-      headers      = ["*"]
+      headers      = ["Host", "User-Agent", "Accept", "Accept-Encoding", "Accept-Language", "Referer"]
       cookies {
         forward = "none"
       }
@@ -49,11 +60,7 @@ resource "aws_cloudfront_distribution" "cdn-web-elb-distribution" {
 
   web_acl_id = aws_wafv2_web_acl.web_acl.arn
 
-  tags = {
-    Name = var.cdn-name
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
-  }
+  tags = merge(var.common-tags, {Name = var.cdn-name})
 
   ##depends_on = [aws_acm_certificate_validation.cert]
 }

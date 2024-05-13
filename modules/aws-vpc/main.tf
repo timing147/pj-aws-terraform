@@ -8,8 +8,6 @@ resource "aws_vpc" "vpc" {
 
   tags = {
     Name = var.vpc-name
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 }
 
@@ -19,8 +17,6 @@ resource "aws_internet_gateway" "igw" {
 
   tags = {
     Name = var.igw-name
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_vpc.vpc ]
@@ -35,8 +31,6 @@ resource "aws_subnet" "public-subnet1" {
 
   tags = {
     Name = var.public-subnet1
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_internet_gateway.igw ]
@@ -51,8 +45,6 @@ resource "aws_subnet" "public-subnet2" {
 
   tags = {
     Name = var.public-subnet2
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_subnet.public-subnet1 ]
@@ -67,8 +59,6 @@ resource "aws_subnet" "private-subnet1" {
 
   tags = {
     Name = var.private-subnet1
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_subnet.public-subnet2 ]
@@ -83,8 +73,6 @@ resource "aws_subnet" "private-subnet2" {
 
   tags = {
     Name = var.private-subnet2
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_subnet.private-subnet1 ]
@@ -99,8 +87,6 @@ resource "aws_subnet" "private-subnet3" {
 
   tags = {
     Name = var.private-subnet3
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_subnet.private-subnet2 ]
@@ -115,8 +101,6 @@ resource "aws_subnet" "private-subnet4" {
 
   tags = {
     Name = var.private-subnet4
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_subnet.private-subnet3 ]
@@ -128,8 +112,6 @@ resource "aws_eip" "eip1" {
 
   tags = {
     Name = var.eip-name1
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_subnet.private-subnet4 ]
@@ -141,8 +123,6 @@ resource "aws_eip" "eip2" {
 
   tags = {
     Name = var.eip-name2
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_eip.eip1 ]
@@ -155,8 +135,6 @@ resource "aws_nat_gateway" "ngw1" {
 
   tags = {
     Name = var.ngw-name1
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_eip.eip2 ]
@@ -169,8 +147,6 @@ resource "aws_nat_gateway" "ngw2" {
 
   tags = {
     Name = var.ngw-name2
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_nat_gateway.ngw1 ]
@@ -186,8 +162,6 @@ resource "aws_route_table" "public-rt1" {
 
   tags = {
     Name = var.public-rt-name1
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_nat_gateway.ngw2 ]
@@ -211,8 +185,6 @@ resource "aws_route_table" "public-rt2" {
 
   tags = {
     Name = var.public-rt-name2
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
   
   depends_on = [ aws_route_table_association.public-rt-association1 ]
@@ -237,8 +209,6 @@ resource "aws_route_table" "private-rt1" {
 
   tags = {
     Name = var.private-rt-name1
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_route_table_association.public-rt-association2 ]
@@ -262,8 +232,6 @@ resource "aws_route_table" "private-rt2" {
 
   tags = {
     Name = var.private-rt-name2
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 
   depends_on = [ aws_route_table_association.private-rt-association1 ]

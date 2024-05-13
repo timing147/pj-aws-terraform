@@ -29,13 +29,13 @@ data "aws_subnet" "public-subnet2" {
     values = [var.public-subnet-name2]
   }
 }
-
+/*
 data "aws_lb_target_group" "tg" {
   tags = {
     Name = var.tg-name
   }
 }
-
+*/
 data "aws_lb_target_group" "tg2" {
   tags = {
     Name = var.tg-name2

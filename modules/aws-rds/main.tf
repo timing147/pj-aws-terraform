@@ -21,8 +21,6 @@ resource "aws_rds_cluster" "aurora_cluster" {
   vpc_security_group_ids  = [data.aws_security_group.db-sg.id]
   tags = {
     Name = var.rds-name
-    OWNER = var.Owner
-    CreateDate = var.CreateDate
   }
 }
 
