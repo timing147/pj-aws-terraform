@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Region 1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#login">Login</a></li>
+        <li><a href="#register">Register</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="login">
+      <h2>Login</h2>
+      <form action="login.php" method="post">
+        <label for="user_id">Username:</label>
+        <input type="text" id="user_id" name="user_id" required>
+        <label for="user_password">Password:</label>
+        <input type="password" id="user_password" name="user_password" required>
+        <button type="submit">Login</button>
+      </form>
+    </section>
+  </main>  
+
+    <section id="register">
+      <h2>Register</h2>
+      <form action="register.php" method="post">
+        <label for="user_id">Username:</label>
+        <input type="text" id="user_id" name="user_id" required>
+        <label for="user_password">Password:</label>
+        <input type="password" id="user_password" name="user_password" required>
+        <button type="submit">Register</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Region 1</p>
+  </footer>
+
+</body>
+</html>
