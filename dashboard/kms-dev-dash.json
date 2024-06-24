@@ -1,0 +1,173 @@
+{
+    "widgets": [
+        {
+            "height": 6,
+            "width": 8,
+            "y": 0,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/EC2", "CPUUtilization", "AutoScalingGroupName", "kms-ASG-app", { "region": "ap-southeast-1", "stat": "Minimum" } ],
+                    [ "AWS/EC2", "CPUUtilization", "AutoScalingGroupName", "kms-ASG-app", { "region": "ap-southeast-1", "yAxis": "left" } ],
+                    [ "AWS/EC2", "CPUUtilization", "AutoScalingGroupName", "kms-ASG-app", { "region": "ap-southeast-1", "stat": "Maximum" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-southeast-1",
+                "period": 300,
+                "stat": "Average",
+                "annotations": {
+                    "horizontal": [
+                        {
+                            "label": "Danger",
+                            "value": 95,
+                            "fill": "above"
+                        }
+                    ]
+                },
+                "title": "CPUUtilization"
+            }
+        },
+        {
+            "height": 6,
+            "width": 9,
+            "y": 0,
+            "x": 8,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ { "expression": "AVG(METRICS())", "label": "mem_used_percent", "id": "e1", "region": "ap-southeast-1" } ],
+                    [ "CWAgent", "mem_used_percent", "host", "ip-10-0-3-226", { "id": "m1", "region": "ap-southeast-1", "visible": false } ],
+                    [ "CWAgent", "mem_used_percent", "host", "ip-10-20-3-141", { "id": "m2", "region": "ap-southeast-1", "visible": false } ],
+                    [ "CWAgent", "mem_used_percent", "host", "ip-10-20-3-166", { "id": "m3", "region": "ap-southeast-1", "visible": false } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-southeast-1",
+                "stat": "Average",
+                "period": 300,
+                "yAxis": {
+                    "left": {
+                        "max": 95,
+                        "min": 0
+                    }
+                },
+                "annotations": {
+                    "horizontal": [
+                        {
+                            "color": "#d62728",
+                            "value": 90,
+                            "fill": "above"
+                        }
+                    ]
+                },
+                "title": "Memory_used"
+            }
+        },
+        {
+            "height": 6,
+            "width": 7,
+            "y": 6,
+            "x": 17,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/App-elb-kms/846fb52bb10b9fd2", { "region": "ap-southeast-1" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-southeast-1",
+                "title": "ELB-RequestCount",
+                "period": 300,
+                "stat": "Maximum"
+            }
+        },
+        {
+            "height": 6,
+            "width": 7,
+            "y": 0,
+            "x": 17,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/ApplicationELB", "TargetResponseTime", "LoadBalancer", "app/App-elb-kms/846fb52bb10b9fd2" ]
+                ],
+                "region": "ap-southeast-1",
+                "title": "ELB-TargetResponseTime"
+            }
+        },
+        {
+            "height": 5,
+            "width": 17,
+            "y": 12,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '/aws/ec2/kms' | fields @timestamp, @message, @logStream, @log\n| sort @timestamp desc\n| limit 1000",
+                "region": "ap-southeast-1",
+                "title": "apache-error",
+                "view": "table"
+            }
+        },
+        {
+            "height": 6,
+            "width": 8,
+            "y": 6,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/DynamoDB", "SuccessfulRequestLatency", "TableName", "main_table_kms", "Operation", "Scan" ]
+                ],
+                "region": "ap-southeast-1",
+                "title": "DynamoDB-Latency",
+                "period": 300
+            }
+        },
+        {
+            "height": 6,
+            "width": 9,
+            "y": 6,
+            "x": 8,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/DynamoDB", "ConsumedWriteCapacityUnits", "TableName", "main_table_kms" ],
+                    [ "AWS/DynamoDB", "ConsumedReadCapacityUnits", "TableName", "main_table_kms" ]
+                ],
+                "region": "ap-southeast-1",
+                "title": "DynamoDB-R/W"
+            }
+        },
+        {
+            "height": 5,
+            "width": 7,
+            "y": 12,
+            "x": 17,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/AutoScaling", "GroupTotalInstances", "AutoScalingGroupName", "kms-ASG-app", { "region": "ap-southeast-1" } ],
+                    [ "AWS/AutoScaling", "GroupMinSize", "AutoScalingGroupName", "kms-ASG-app", { "region": "ap-southeast-1", "visible": false } ],
+                    [ "AWS/AutoScaling", "GroupMaxSize", "AutoScalingGroupName", "kms-ASG-app", { "region": "ap-southeast-1", "visible": false } ],
+                    [ "AWS/AutoScaling", "GroupInServiceInstances", "AutoScalingGroupName", "kms-ASG-app", { "region": "ap-southeast-1" } ]
+                ],
+                "view": "singleValue",
+                "stacked": true,
+                "region": "ap-southeast-1",
+                "start": "-PT5M",
+                "period": 300,
+                "stat": "Average",
+                "title": "ASG-InstanceState",
+                "liveData": true
+            }
+        }
+    ]
+}

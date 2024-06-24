@@ -16,8 +16,8 @@ provider "aws" {
 
 # Needed because CloudFront can only use ACM certs generated in us-east-1
 provider "aws" {
-  alias  = "us-east-2"
-  region = "us-east-2"
+  alias  = "us-west-2"
+  region = "us-west-2"
 }
 provider "aws" {
   alias  = "ap-southeast-1"

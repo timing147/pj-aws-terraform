@@ -3,10 +3,10 @@ data "aws_ami" "ami" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+    values = ["APP-image-kms-v1.1"]
   }
 
-  owners = ["099720109477"] 
+  owners = ["533266984569"] 
 }
 
 data "aws_security_group" "web-sg" {
@@ -38,7 +38,7 @@ data "aws_lb_target_group" "tg" {
 */
 data "aws_lb_target_group" "tg2" {
   tags = {
-    Name = var.tg-name2
+    Name = "App-TG-kms"
   }
 }
 
@@ -60,14 +60,12 @@ data "aws_subnet" "private-subnet2" {
   }
 }
 /*
-variable "aws_key_pair" {
-  type    = string
-  default = "kms-keypair"
-}
+data "aws_key_pair" "key_name" {
+  key_name           = "kms-keypair"
+  include_public_key = true
 
-data "aws_key_pair" "keypair" {
   filter {
-    name = "tag:Name"
+    name   = "tag:Name"
     values = ["kms-keypair"]
   }
 }

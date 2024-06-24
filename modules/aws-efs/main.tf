@@ -1,9 +1,11 @@
+
 # EFS 파일 시스템 생성
 resource "aws_efs_file_system" "efs" {
 
   # 유휴 시 데이터 암호화
   encrypted = true
   # KMS에서 관리형 키를 이용하려면 kms_key_id 속성을 붙여줍니다.
+  #kms_key_id = data.aws_kms_key.multi-key.arn
 
   # 성능 모드: generalPurpose(범용 모드), maxIO(최대 IO 모드)
   performance_mode = "generalPurpose"
@@ -41,7 +43,16 @@ resource "aws_efs_backup_policy" "policy" {
   }
 }
 
+resource "aws_efs_replication_configuration" "rp" {
+  source_file_system_id = aws_efs_file_system.efs.id
+  destination {
+    availability_zone_name = "us-west-2a"
+    #자체 kms key 사용
+    #kms_key_id = data.aws_kms_key.multi-key-rp.arn
+  }
+}
 
+/*
 data "aws_iam_policy_document" "policy" {
   statement {
     sid    = "ExampleStatement01"
@@ -71,3 +82,16 @@ resource "aws_efs_file_system_policy" "policy" {
   file_system_id = aws_efs_file_system.efs.id
   policy         = data.aws_iam_policy_document.policy.json
 }
+
+
+# 다중 리전 복제 키 데이터
+data "aws_kms_key" "multi-key" {
+  key_id = var.kms-alias
+}
+data "aws_kms_key" "multi-key-rp" {
+  provider = aws.us-west-2
+  key_id = var.kms-alias
+}
+*/
+
+

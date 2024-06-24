@@ -40,9 +40,9 @@ DB-NAME      = "kms-db"
 RDS-NAME     = "3-Tier-RDS"
 
 # ALB
-TG-NAME   = "Web-TG"
+TG-NAME   = "Web-TG-kms"
 TG-NAME2  = "App-TG-kms"
-ALB-NAME  = "Web-elb"
+ALB-NAME  = "Web-elb-kms"
 ALB-NAME2 = "App-elb-kms"
 
 # IAM
@@ -53,8 +53,8 @@ INSTANCE-PROFILE-NAME = "iam-instance-profile-for-ec2-kms"
 # AUTOSCALING
 AMI-NAME             = "New-AMI"
 LAUNCH-TEMPLATE-NAME = "Web-template"
-ASG-NAME             = "3-Tier-ASG-web"
-ASG-NAME2            = "3-Tier-ASG-app"
+ASG-NAME             = "kms-ASG-web"
+ASG-NAME2            = "kms-ASG-app"
 
 LAUNCH-TEMPLATE-PRIVATE = "App-template"
 
@@ -63,7 +63,7 @@ DOMAIN-NAME = "mintstone.store"
 CDN-NAME    = "3-Tier-CDN"
 
 # WAF
-WEB-ACL-NAME = "3-Tier-WAF"
+WEB-ACL-NAME = "kms-WAF"
 
 #s3
 STATIC-FILE   = "index.html"
@@ -76,3 +76,7 @@ CREATEDATE = "2024.05.03"
 
 #dynamodb
 REGION_SINGAPORE = "ap-southeast-1"
+VPC-SUB-NAME     = "vpc-oregon"
+
+#
+KMS-ALIAS = "alias/Key-multi-region"

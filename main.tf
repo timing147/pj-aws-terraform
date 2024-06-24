@@ -43,20 +43,11 @@ module "vpc" {
   az-2             = var.AZ-2
   region_singapore = var.REGION_SINGAPORE
 
+
   #depends_on = [module.s3]
 }
 
-module "multi-region" {
-  source = "./modules/multi-region"
-  
-  Owner = var.OWNER
-  web-sg-name = var.WEB-SG-NAME
-  alb-sg-name = var.ALB-SG-NAME
-  efs-sg-name = var.EFS-SG-NAME
-  db-sg-name = var.DB-SG-NAME
 
-  depends_on = [ module.vpc ]
-}
 
 module "security-group" {
   source = "./modules/security-group"
@@ -78,6 +69,7 @@ module "efs" {
   efs-sg-name          = var.EFS-SG-NAME
   private-subnet-name1 = var.PRIVATE-SUBNET1
   private-subnet-name2 = var.PRIVATE-SUBNET2
+  kms-alias = var.KMS-ALIAS
 
   depends_on = [module.security-group]
 }
@@ -179,3 +171,26 @@ module "autoscaling" {
 #
 #}
 
+module "multi-region" {
+  source = "./modules/multi-region"
+
+  providers = {
+    aws = aws.us-west-2
+  }
+
+  Owner                   = var.OWNER
+  web-sg-name             = var.WEB-SG-NAME
+  alb-sg-name             = var.ALB-SG-NAME
+  efs-sg-name             = var.EFS-SG-NAME
+  db-sg-name              = var.DB-SG-NAME
+  vpc-sub-name            = var.VPC-SUB-NAME
+  tg-name                 = var.TG-NAME
+  asg-name                = var.ASG-NAME
+  main-instance-profile-name   = module.iam.main-instance-profile
+  launch-template-private = var.LAUNCH-TEMPLATE-PRIVATE
+  alb-name                = var.ALB-NAME
+  main_vpc_id = module.vpc.main_vpc_id
+  main_vpc_cidr = module.vpc.main_vpc_cidr_block
+  main_rt_1_id = module.vpc.main_rt1_id
+  main_rt_2_id = module.vpc.main_rt2_id
+}

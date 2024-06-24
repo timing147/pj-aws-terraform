@@ -35,6 +35,6 @@ jobs:
         run: |
           aws s3 sync \
             --region ${{ env.AWS_REGION }} \
-            build s3://${{ enc.AWS_S3_BUCKET }} \
+            build s3://${{ env.AWS_S3_BUCKET }} \
             --delete
         working-directory: ./static

@@ -25,7 +25,7 @@ resource "aws_vpc_endpoint" "dynamodb_endpoint" {
         "dynamodb:Scan"
       ],
       "Resource": [
-        "arn:aws:dynamodb:${var.region_singapore}:${data.aws_caller_identity.current.account_id}:table/main_table"
+        "arn:aws:dynamodb:${var.region_singapore}:${data.aws_caller_identity.current.account_id}:table/main_table_kms"
       ]
     }
   ]
@@ -41,12 +41,12 @@ POLICY
 # 1차 구성, ddb 테이블
 resource "aws_dynamodb_table" "main_table_singapore" {
   provider     = aws.ap-southeast-1
-  name         = "main_table"
+  name         = "main_table_kms"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "username"
+  hash_key     = "user_id"
 
   attribute {
-    name = "username"
+    name = "user_id"
     type = "S"
   }
 
@@ -66,20 +66,21 @@ resource "aws_dynamodb_table_item" "check" {
   hash_key   = aws_dynamodb_table.main_table_singapore.hash_key
   item       = <<ITEM
 {
-  "username": {"S": "minseok"},
-  "password": {"S": "test"}
+  "user_id": {"S": "testuser"},
+  "user_name": {"S": "minseok"},
+  "user_password": {"S": "test1234"}
 }
 ITEM
 }
 
 resource "aws_dynamodb_table" "main_table_oregon" {
   provider     = aws.us-west-2
-  name         = "main_table"
+  name         = "main_table_kms"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "username"
+  hash_key     = "user_id"
 
   attribute {
-    name = "username"
+    name = "user_id"
     type = "S"
   }
 
@@ -88,7 +89,7 @@ resource "aws_dynamodb_table" "main_table_oregon" {
   tags = {
     createDate = formatdate("YYYY-MM-DD", timestamp())
     Owner      = "kms"
-    Name       = "main_table"
+    Name       = "main_table_kms"
   }
 }
 
@@ -100,7 +101,7 @@ resource "aws_dynamodb_global_table" "main_table" {
 
   provider = aws.ap-southeast-1
 
-  name = "main_table"
+  name = "main_table_kms"
 
   replica {
     region_name = "ap-southeast-1"

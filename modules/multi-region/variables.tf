@@ -3,3 +3,13 @@ variable "alb-sg-name" {}
 variable "Owner" {}
 variable "db-sg-name" {}
 variable "efs-sg-name" {}
+variable "vpc-sub-name" {}
+variable "alb-name" {}
+variable "tg-name" {}
+variable "launch-template-private" {}
+variable "main-instance-profile-name" {}
+variable "asg-name" {}
+variable "main_vpc_id" {}
+variable "main_vpc_cidr" {}
+variable "main_rt_1_id" {}
+variable "main_rt_2_id" {}

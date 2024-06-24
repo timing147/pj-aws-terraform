@@ -74,6 +74,10 @@ variable "CREATEDATE" {}
 
 #dynamodb
 variable "REGION_SINGAPORE" {}
+variable "VPC-SUB-NAME" {}
+
+#
+variable "KMS-ALIAS" {}
 
 # variable "" {}
 # variable "" {}

@@ -125,3 +125,15 @@ resource "aws_lb_listener" "app-alb-listener" {
 
   depends_on = [ aws_lb.app-elb ]
 }
+
+# EC2 endpoint
+resource "aws_vpc_endpoint" "ec2" {
+  vpc_id = data.aws_vpc.vpc.id
+  vpc_endpoint_type = "Interface"
+  service_name = "com.amazonaws.ap-southeast-1.ec2"
+
+  security_group_ids = [
+    data.aws_security_group.web-alb-sg.id
+  ]
+  private_dns_enabled = true
+}

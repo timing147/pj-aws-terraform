@@ -1,5 +1,5 @@
 resource "aws_security_group" "alb-sg" {
-  vpc_id      = data.aws_vpc.vpc.id
+  vpc_id      = aws_vpc.vpc.id
   description = "Allow HTTP and HTTPS for World"
 
   ingress {
@@ -30,12 +30,12 @@ resource "aws_security_group" "alb-sg" {
     CreateDate = formatdate("YYYY-MM-DD", timestamp())
   }
 
-  depends_on = [ data.aws_vpc.vpc ]
+  depends_on = [ aws_vpc.vpc ]
 }
 
 
 resource "aws_security_group" "web-tier-sg" {
-  vpc_id      = data.aws_vpc.vpc.id
+  vpc_id      = aws_vpc.vpc.id
   description = "Allow HTTP and HTTPS for ALB Only"
 /*  ingress {
     from_port   = 80
@@ -64,7 +64,12 @@ resource "aws_security_group" "web-tier-sg" {
     protocol        = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  ingress {
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port        = 0
     to_port          = 0
@@ -85,7 +90,7 @@ resource "aws_security_group" "web-tier-sg" {
 
 # Creating Security Group for RDS Instances Tier With  only access to App-Tier ALB
 resource "aws_security_group" "database-sg" {
-  vpc_id      = data.aws_vpc.vpc.id
+  vpc_id      = aws_vpc.vpc.id
   description = "Protocol Type MySQL/Aurora"
 
   ingress {
@@ -114,7 +119,7 @@ resource "aws_security_group" "database-sg" {
 
 # Creating Security Group for EFS With  only access to App-Tier Instance
 resource "aws_security_group" "efs-sg" {
-  vpc_id      = data.aws_vpc.vpc.id
+  vpc_id      = aws_vpc.vpc.id
   description = "Allow NFS"
 
   ingress {

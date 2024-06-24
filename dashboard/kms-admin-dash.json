@@ -1,0 +1,329 @@
+{
+    "widgets": [
+        {
+            "height": 4,
+            "width": 8,
+            "y": 11,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/AutoScaling", "GroupTotalInstances", "AutoScalingGroupName", "kms-ASG-app", { "region": "ap-southeast-1" } ],
+                    [ ".", "GroupMinSize", ".", ".", { "region": "ap-southeast-1", "visible": false } ],
+                    [ ".", "GroupMaxSize", ".", ".", { "region": "ap-southeast-1", "visible": false } ],
+                    [ ".", "GroupInServiceInstances", ".", ".", { "region": "ap-southeast-1" } ]
+                ],
+                "view": "singleValue",
+                "stacked": true,
+                "region": "ap-southeast-1",
+                "start": "-PT5M",
+                "period": 300,
+                "end": "P0D",
+                "stat": "Average",
+                "title": "ASG-InstanceState",
+                "liveData": true
+            }
+        },
+        {
+            "height": 6,
+            "width": 12,
+            "y": 0,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/EC2", "CPUUtilization", "AutoScalingGroupName", "kms-ASG-app", { "region": "ap-southeast-1", "stat": "Minimum" } ],
+                    [ "...", { "region": "ap-southeast-1", "yAxis": "left" } ],
+                    [ "...", { "region": "ap-southeast-1", "stat": "Maximum" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-southeast-1",
+                "period": 300,
+                "stat": "Average",
+                "annotations": {
+                    "horizontal": [
+                        {
+                            "label": "Danger",
+                            "value": 95,
+                            "fill": "above"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "height": 5,
+            "width": 6,
+            "y": 6,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/EC2", "DiskReadBytes", "AutoScalingGroupName", "kms-ASG-app" ],
+                    [ ".", "DiskWriteBytes", ".", "." ]
+                ],
+                "region": "ap-southeast-1",
+                "title": "ASG-DiskOps",
+                "period": 300
+            }
+        },
+        {
+            "height": 5,
+            "width": 6,
+            "y": 6,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/DynamoDB", "SuccessfulRequestLatency", "TableName", "main_table_kms", "Operation", "Scan" ]
+                ],
+                "region": "ap-southeast-1",
+                "title": "DynamoDB-Latency",
+                "period": 300
+            }
+        },
+        {
+            "height": 6,
+            "width": 10,
+            "y": 15,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/CloudFront", "Requests", "Region", "Global", "DistributionId", "E3TRG6MJLVKVGM", { "region": "us-east-1" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "title": "Cloudfront - Requests",
+                "yAxis": {
+                    "left": {
+                        "showUnits": false
+                    },
+                    "right": {
+                        "showUnits": false
+                    }
+                },
+                "stat": "Average",
+                "period": 300
+            }
+        },
+        {
+            "height": 4,
+            "width": 8,
+            "y": 11,
+            "x": 16,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/CloudFront", "TotalErrorRate", "Region", "Global", "DistributionId", "E3TRG6MJLVKVGM", { "region": "us-east-1", "visible": false } ],
+                    [ "AWS/CloudFront", "4xxErrorRate", "Region", "Global", "DistributionId", "E3TRG6MJLVKVGM", { "label": "Total4xxErrors", "region": "us-east-1" } ],
+                    [ "AWS/CloudFront", "5xxErrorRate", "Region", "Global", "DistributionId", "E3TRG6MJLVKVGM", { "label": "Total5xxErrors", "region": "us-east-1" } ],
+                    [ { "expression": "(m4+m5+m6)/m7*100", "label": "5xxErrorByLambdaEdge", "id": "e1", "region": "us-east-1", "visible": false } ],
+                    [ "AWS/CloudFront", "LambdaExecutionError", "Region", "Global", "DistributionId", "E3TRG6MJLVKVGM", { "id": "m4", "stat": "Sum", "visible": false, "region": "us-east-1" } ],
+                    [ "AWS/CloudFront", "LambdaValidationError", "Region", "Global", "DistributionId", "E3TRG6MJLVKVGM", { "id": "m5", "stat": "Sum", "visible": false, "region": "us-east-1" } ],
+                    [ "AWS/CloudFront", "LambdaLimitExceededError", "Region", "Global", "DistributionId", "E3TRG6MJLVKVGM", { "id": "m6", "stat": "Sum", "visible": false, "region": "us-east-1" } ],
+                    [ "AWS/CloudFront", "Requests", "Region", "Global", "DistributionId", "E3TRG6MJLVKVGM", { "id": "m7", "stat": "Sum", "visible": false, "region": "us-east-1" } ]
+                ],
+                "view": "singleValue",
+                "stacked": true,
+                "region": "us-east-1",
+                "title": "Cloudfront - Error rate",
+                "yAxis": {
+                    "left": {
+                        "showUnits": false,
+                        "min": 0,
+                        "max": 100
+                    },
+                    "right": {
+                        "showUnits": false
+                    }
+                },
+                "period": 300,
+                "stat": "Average",
+                "legend": {
+                    "position": "bottom"
+                },
+                "setPeriodToTimeRange": true,
+                "annotations": {
+                    "horizontal": [
+                        {
+                            "color": "#b2df8d",
+                            "label": "제목 없는 주석",
+                            "value": 0,
+                            "fill": "above"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "height": 4,
+            "width": 8,
+            "y": 11,
+            "x": 8,
+            "type": "metric",
+            "properties": {
+                "view": "singleValue",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/AutoScaling", "GroupTerminatingInstances", "AutoScalingGroupName", "kms-ASG-app" ],
+                    [ ".", "GroupTerminatingCapacity", ".", "." ]
+                ],
+                "region": "ap-southeast-1",
+                "setPeriodToTimeRange": true,
+                "title": "ASG - Terminating"
+            }
+        },
+        {
+            "height": 6,
+            "width": 12,
+            "y": 0,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ { "expression": "AVG(METRICS())", "label": "mem_used_percent", "id": "e1", "region": "ap-southeast-1" } ],
+                    [ "CWAgent", "mem_used_percent", "host", "ip-10-0-3-226", { "id": "m1", "region": "ap-southeast-1", "visible": false } ],
+                    [ "...", "ip-10-20-3-141", { "id": "m2", "region": "ap-southeast-1", "visible": false } ],
+                    [ "...", "ip-10-20-3-166", { "id": "m3", "region": "ap-southeast-1", "visible": false } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-southeast-1",
+                "stat": "Average",
+                "period": 300,
+                "yAxis": {
+                    "left": {
+                        "max": 95,
+                        "min": 0
+                    }
+                },
+                "annotations": {
+                    "horizontal": [
+                        {
+                            "color": "#d62728",
+                            "value": 90,
+                            "fill": "above"
+                        }
+                    ]
+                },
+                "title": "Memory_used"
+            }
+        },
+        {
+            "height": 6,
+            "width": 7,
+            "y": 15,
+            "x": 10,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/NATGateway", "PacketsOutToDestination", "NatGatewayId", "nat-03bad5648a51f3300", { "region": "ap-southeast-1" } ],
+                    [ ".", "PacketsOutToSource", ".", "." ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-southeast-1",
+                "title": "NAT-PacketsOut",
+                "period": 300,
+                "stat": "Average"
+            }
+        },
+        {
+            "height": 6,
+            "width": 24,
+            "y": 27,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE 'ap-southeast-1_flow-log' | fields @timestamp, @message, @logStream, @log\n| sort @timestamp desc\n| limit 1000",
+                "region": "ap-southeast-1",
+                "title": "singapore_flow-log",
+                "view": "table"
+            }
+        },
+        {
+            "height": 6,
+            "width": 24,
+            "y": 21,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE '/aws/ec2/kms' | fields @timestamp, @message, @logStream, @log\n| sort @timestamp desc\n| limit 1000",
+                "region": "ap-southeast-1",
+                "title": "apache-error",
+                "view": "table"
+            }
+        },
+        {
+            "height": 5,
+            "width": 6,
+            "y": 6,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "view": "singleValue",
+                "stacked": true,
+                "metrics": [
+                    [ "AWS/S3", "BucketSizeBytes", "BucketName", "kms-deploy-bucket", "StorageType", "StandardStorage", { "period": 86400, "region": "ap-southeast-1" } ]
+                ],
+                "region": "ap-southeast-1",
+                "period": 300
+            }
+        },
+        {
+            "height": 5,
+            "width": 6,
+            "y": 6,
+            "x": 18,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "stacked": false,
+                "metrics": [
+                    [ "AWS/DynamoDB", "ConsumedWriteCapacityUnits", "TableName", "main_table_kms" ],
+                    [ ".", "ConsumedReadCapacityUnits", ".", "." ]
+                ],
+                "region": "ap-southeast-1",
+                "title": "DynamoDB-R/W"
+            }
+        },
+        {
+            "height": 6,
+            "width": 24,
+            "y": 33,
+            "x": 0,
+            "type": "log",
+            "properties": {
+                "query": "SOURCE 'aws-waf-logs-kms' | fields @timestamp, @message\n| filter webaclId = \"arn:aws:wafv2:us-east-1:533266984569:global/webacl/3-Tier-WAF/ceacd0c1-b724-421f-9c01-ad957b8b6fa3\"\n| sort @timestamp desc\n| limit 20",
+                "region": "us-east-1",
+                "title": "aws-waf-logs-kms",
+                "view": "table"
+            }
+        },
+        {
+            "height": 6,
+            "width": 7,
+            "y": 15,
+            "x": 17,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/NATGateway", "PacketsInFromDestination", "NatGatewayId", "nat-03bad5648a51f3300" ],
+                    [ ".", "PacketsInFromSource", ".", "." ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "ap-southeast-1",
+                "title": "NAT-PacketsIn",
+                "period": 300
+            }
+        }
+    ]
+}

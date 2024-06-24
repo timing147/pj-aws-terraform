@@ -261,5 +261,58 @@ resource "aws_route_table_association" "private-rt-association4" {
   depends_on = [ aws_subnet.private-subnet4 ]
 }
 
+# ec2 instance connect endpoint
+resource "aws_ec2_instance_connect_endpoint" "endpoint" {
+  subnet_id = aws_subnet.public-subnet1.id
+}
+/*
+# vpc flow log
 
+data "aws_iam_policy_document" "flow_logs_policy" {
+  source_policy_documents = [file("${path.module}/kms-flowlog-policy.json")]
+}
+# file("${path.module}
+resource "aws_iam_policy" "flow_logs_policy" {
+  name        = "flow-logs-policy"
+  policy      = data.aws_iam_policy_document.flow_logs_policy.json
+}
 
+resource "aws_iam_role" "flow_logs_role" {
+  name               = "flow-logs-role"
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "vpc-flow-logs.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "flow_logs_policy_attachment" {
+  policy_arn = aws_iam_policy.flow_logs_policy.arn
+  role       = aws_iam_role.flow_logs_role.name
+}
+
+# VPC Flow Logs
+resource "aws_flow_log" "flowlog" {
+  log_destination      = aws_cloudwatch_log_group.flowlog-group.arn
+  traffic_type         = "ALL"
+  log_destination_type = "cloud-watch-logs"
+  iam_role_arn         = aws_iam_role.flow_logs_role.arn
+  vpc_id               = aws_vpc.vpc.id
+}
+
+# CloudWatch Log Group
+resource "aws_cloudwatch_log_group" "flowlog-group" {
+  name              = "vpc-flow-logs"
+  retention_in_days = 14
+}
+
+*/

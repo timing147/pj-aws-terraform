@@ -21,30 +21,44 @@
     <section id="login">
       <h2>Login</h2>
       <form action="login.php" method="post">
-        <label for="user_id">Username:</label>
-        <input type="text" id="user_id" name="user_id" required>
-        <label for="user_password">Password:</label>
-        <input type="password" id="user_password" name="user_password" required>
+        <label for="login_user_id">Username:</label>
+        <input type="text" id="login_user_id" name="login_user_id" required>
+        <label for="login_user_password">Password:</label>
+        <input type="password" id="login_user_password" name="login_user_password" required>
         <button type="submit">Login</button>
       </form>
     </section>
-  </main>  
-
+    
     <section id="register">
       <h2>Register</h2>
       <form action="register.php" method="post">
-        <label for="user_id">Username:</label>
-        <input type="text" id="user_id" name="user_id" required>
-        <label for="user_password">Password:</label>
-        <input type="password" id="user_password" name="user_password" required>
+        <label for="register_user_id">Username:</label>
+        <input type="text" id="register_user_id" name="register_user_id" required>
+        <label for="register_user_password">Password:</label>
+        <input type="password" id="register_user_password" name="register_user_password" required>
+        <label for="register_user_name">Nickname:</label>
+        <input type="text" id="register_user_name" name="register_user_name" required>
         <button type="submit">Register</button>
       </form>
     </section>
   </main>
+  
 
   <footer>
-    <p>&copy; 2023 Region 1</p>
+    <p id="footer-content"></p>
   </footer>
-
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('footer.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-content').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('footer-content').innerHTML = "Error loading footer";
+                console.error('Error fetching footer:', error);
+            });
+    });
+</script>
 </body>
 </html>
